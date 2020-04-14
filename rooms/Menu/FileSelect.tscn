@@ -1,0 +1,91 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://entities/Player/PlayerSprite.tscn" type="PackedScene" id=1]
+[ext_resource path="res://graphics/Tiles/fileFloor.png" type="Texture" id=2]
+[ext_resource path="res://graphics/Scenery/Tree.png" type="Texture" id=3]
+[ext_resource path="res://entities/Misc/File.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scripts/Specific/FileSelectManager.gd" type="Script" id=5]
+[ext_resource path="res://scripts/RoomInitializer.gd" type="Script" id=6]
+[ext_resource path="res://audio/music/GuyRock.ogg" type="AudioStream" id=7]
+
+[sub_resource type="ParticlesMaterial" id=1]
+flag_disable_z = true
+spread = 0.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 33.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+
+[sub_resource type="Animation" id=2]
+loop = true
+tracks/0/type = "animation"
+tracks/0/path = NodePath("Player/PlayerAnimator")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"clips": PoolStringArray( "Walk" ),
+"times": PoolRealArray( 0 )
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("fileFloor:region_rect")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Rect2( 0, 0, 800, 128 ), Rect2( -32, 0, 800, 128 ) ]
+}
+
+[node name="FileSelect" type="Node2D"]
+script = ExtResource( 6 )
+music = ExtResource( 7 )
+
+[node name="FileSelectScript" type="Node" parent="."]
+script = ExtResource( 5 )
+fileNodes = [ NodePath("../File_1"), NodePath("../File_2"), NodePath("../File_3") ]
+
+[node name="TreeSpawner" type="Particles2D" parent="."]
+position = Vector2( -96, 388 )
+lifetime = 30.0
+preprocess = 20.0
+randomness = 1.0
+process_material = SubResource( 1 )
+texture = ExtResource( 3 )
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+position = Vector2( 144, 464 )
+scale = Vector2( -1, 1 )
+
+[node name="Sprite" parent="Player" index="0"]
+frame = 4
+
+[node name="Bow" parent="Player/Sprite" index="0"]
+visible = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "Animate"
+anims/Animate = SubResource( 2 )
+
+[node name="fileFloor" type="Sprite" parent="."]
+position = Vector2( 400, 536 )
+texture = ExtResource( 2 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 800, 128 )
+
+[node name="File_1" parent="." instance=ExtResource( 4 )]
+position = Vector2( 144, 260 )
+
+[node name="File_2" parent="." instance=ExtResource( 4 )]
+position = Vector2( 400, 258 )
+fileID = 1
+
+[node name="File_3" parent="." instance=ExtResource( 4 )]
+position = Vector2( 656, 256 )
+fileID = 2
+
+[editable path="Player"]

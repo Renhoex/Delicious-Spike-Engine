@@ -1,0 +1,62 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://entities/Player/PlayerSprite.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scripts/Player/Player.gd" type="Script" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 5.5, 10.5 )
+
+[node name="Player" type="KinematicBody2D"]
+z_index = 5
+collision_layer = 33
+collision_mask = 4
+collision/safe_margin = 1.0
+script = ExtResource( 2 )
+
+[node name="HitMask" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+
+[node name="HurtBox" type="CollisionShape2D" parent="HitMask"]
+modulate = Color( 1, 0, 0, 1 )
+self_modulate = Color( 1, 0, 0, 1 )
+position = Vector2( 0, -2.5 )
+shape = SubResource( 1 )
+
+[node name="WallJumpMask" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 0
+
+[node name="Mask" type="CollisionShape2D" parent="WallJumpMask"]
+modulate = Color( 1, 0, 0, 1 )
+self_modulate = Color( 1, 0, 0, 1 )
+position = Vector2( 0, -2.5 )
+shape = SubResource( 1 )
+
+[node name="WaterMask" type="Area2D" parent="."]
+collision_layer = 128
+collision_mask = 0
+
+[node name="Mask" type="CollisionShape2D" parent="WaterMask"]
+modulate = Color( 1, 0, 0, 1 )
+self_modulate = Color( 1, 0, 0, 1 )
+position = Vector2( 0, -2.5 )
+shape = SubResource( 1 )
+
+[node name="CollisionBox" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -2.5 )
+shape = SubResource( 1 )
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+
+[node name="GroundNormal" type="RayCast2D" parent="."]
+enabled = true
+collision_mask = 33
+
+[node name="BulletContainer" type="Node" parent="."]
+[connection signal="area_shape_entered" from="HitMask" to="." method="_on_HitMask_area_shape_entered"]
+[connection signal="body_entered" from="HitMask" to="." method="_on_HitMask_body_entered"]
+[connection signal="area_shape_entered" from="WallJumpMask" to="." method="_on_WallJumpMask_area_shape_entered"]
+[connection signal="area_shape_exited" from="WallJumpMask" to="." method="_on_WallJumpMask_area_shape_exited"]
+[connection signal="area_shape_entered" from="WaterMask" to="." method="_on_WaterMask_area_shape_entered"]
+[connection signal="area_shape_exited" from="WaterMask" to="." method="_on_WaterMask_area_shape_exited"]

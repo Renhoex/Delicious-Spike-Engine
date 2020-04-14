@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/MegaMan.ogg-36a9554624ab0c48a526ab5bc07ab292.oggstr"
+
+[deps]
+
+source_file="res://audio/music/MegaMan.ogg"
+dest_files=[ "res://.import/MegaMan.ogg-36a9554624ab0c48a526ab5bc07ab292.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0.1

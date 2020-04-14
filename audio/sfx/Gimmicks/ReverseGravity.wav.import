@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/ReverseGravity.wav-89729b088f79dc6908729c59acdf4c3f.sample"
+
+[deps]
+
+source_file="res://audio/sfx/Gimmicks/ReverseGravity.wav"
+dest_files=[ "res://.import/ReverseGravity.wav-89729b088f79dc6908729c59acdf4c3f.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

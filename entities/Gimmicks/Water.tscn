@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://graphics/Gimmicks/WaterTop.png" type="Texture" id=1]
+[ext_resource path="res://graphics/Gimmicks/Water.png" type="Texture" id=2]
+[ext_resource path="res://scripts/Gimmicks/Water.gd" type="Script" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 16, 16 )
+
+[node name="Water" type="Node2D"]
+script = ExtResource( 3 )
+
+[node name="WaterTop" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+region_enabled = true
+region_rect = Rect2( 0, 0, 32, 32 )
+
+[node name="Water" type="Sprite" parent="WaterTop"]
+visible = false
+position = Vector2( 0, 32 )
+texture = ExtResource( 2 )
+region_enabled = true
+
+[node name="WaterCollision" type="Area2D" parent="."]
+modulate = Color( 1, 1, 1, 0.439216 )
+collision_layer = 128
+collision_mask = 128
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WaterCollision"]
+shape = SubResource( 1 )
