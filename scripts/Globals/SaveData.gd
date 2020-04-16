@@ -1,7 +1,7 @@
 extends Node
 
 #temp data
-var saveFileID = 0;
+var saveFileID = -1; #-1 for testing
 
 # powers
 const POWER_DJUMP = 0;
