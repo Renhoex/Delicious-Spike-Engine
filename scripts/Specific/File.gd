@@ -40,9 +40,9 @@ func _ready():
 		# set deaths
 		$TextContainer/Deaths.text = "Deaths: " + str(SaveData.saveData["deaths"]);
 		# reset the file ID
-		SaveData.saveFileID = fileID;
+		SaveData.saveFileID = preFile;
 	
 #reflect the node name in the editor
-func _process(delta):
+func _process(_delta):
 	if Engine.editor_hint:
 		$TextContainer/CommandText.text = name.replace("_"," ");

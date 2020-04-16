@@ -18,17 +18,42 @@ func _ready():
 	visible = startVisible;
 
 func _physics_process(delta):
+	var positionOverwrite = Vector2.ZERO;
 	# only run logic if active
 	if (active && !locked):
 		# if the object is collidable then stop movement when colliding
 		if (collide):
-			var check = move_and_collide(velocity*pixelsPerSecond*delta);
+			# godot doesn't like physics sync on move and collide so we disable it temporarily
+			set_sync_to_physics(false);
+			var move = move_and_slide(velocity*pixelsPerSecond, Vector2.DOWN, true, 1);
+			# re enable physics sync
+			set_sync_to_physics(true);
+			# move back from slides
+			position -= move*delta;
 			# if bounce then bounce the velocity in the other direction (do an exception for the player)
-			if check && bounce && check.collider != Global.player:
-				velocity = velocity.bounce(check.normal);
-		# otherwise always move
-		else:
-			position += velocity*pixelsPerSecond*delta;
+			var collisions = get_slide_count();
+			if (collisions > 0):
+				# overwrite position
+				#positionOverwrite = position + move;
+				#set end position
+				position += move*delta;
+				if bounce:
+					for i in collisions:
+						#positionOverwrite = move
+						# avoid having the object stick
+						if velocity.normalized() != get_slide_collision(i).normal:
+							velocity = velocity.bounce(get_slide_collision(i).normal);
+				else:
+					velocity = move;
+			#else:
+			# if no bounce then set velocity to move
+			#	velocity = move;
+		# move
+		#if (positionOverwrite != Vector2.ZERO):
+		#	position = positionOverwrite;
+		#else:
+		position += velocity*pixelsPerSecond*delta;
+		
 		
 		# if stop time is above 0 the run stop active logic
 		if stopTime > 0:

@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scripts/TrapScript.gd" type="Script" id=1]
 [ext_resource path="res://graphics/Gimmicks/MovingPlatform.png" type="Texture" id=2]
+[ext_resource path="res://scripts/Specific/PositionSync.gd" type="Script" id=3]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 16, 8 )
@@ -12,8 +13,8 @@ extents = Vector2( 16, 8 )
 [node name="MovingPlatform" type="KinematicBody2D"]
 collision_mask = 0
 script = ExtResource( 1 )
-bounce = true
 collide = true
+bounce = true
 active = true
 playSound = false
 
@@ -28,6 +29,9 @@ one_way_collision = true
 visible = false
 collision_layer = 0
 collision_mask = 32
+motion/sync_to_physics = true
+script = ExtResource( 3 )
+nodeToSync = NodePath("..")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="PlayerCollision"]
 shape = SubResource( 1 )
