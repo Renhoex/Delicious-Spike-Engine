@@ -88,4 +88,14 @@ fileID = 1
 position = Vector2( 656, 256 )
 fileID = 2
 
+[node name="Label" type="Label" parent="."]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 48.0
+margin_bottom = 22.0
+text = "Press UP for Options"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [editable path="Player"]

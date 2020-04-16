@@ -58,6 +58,8 @@ func _ready():
 			SaveData.save();
 	# set global player to self (used for referencing in other objects)
 	Global.player = self;
+	if (SaveData.saveData["difficulty"] > 0):
+		$Player/Sprite/Bow.visible = false;
 
 
 

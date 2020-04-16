@@ -69,11 +69,14 @@ func load_game():
 		for i in data.keys():
 			if saveData.has(i):
 				saveData[i] = data[i];
-		
+	
 	save_game.close();
+	
+	# convert any remaining strings
 	var vec = saveData["position"];
-	vec = vec.replace("(","").replace(")","").split(",");
+	vec = convert_to_array(vec);
 	saveData["position"] = Vector2(vec[0],vec[1]);
+	# save current data
 	lastSave = saveData.duplicate(true);
 	return true;
 
@@ -85,6 +88,11 @@ func reset_data():
 	"time" : 0.0,
 	"canDoubleJump" : true,
 	"difficulty" : Global.DIFFICULTY_MEDIUM,
+	"progress" : [0,0,0,0,0,0,0,0]
 	}
 	# create temporary data
 	lastSave = saveData.duplicate(true);
+
+func convert_to_array(string):
+	return string.replace("(","").replace(")","").split(",");
+	
