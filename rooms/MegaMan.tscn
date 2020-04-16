@@ -352,13 +352,12 @@ position = Vector2( 145.193, 54.5395 )
 [node name="Camera" type="Camera2D" parent="."]
 anchor_mode = 0
 current = true
-limit_left = -800
+limit_left = 0
 limit_top = -600
-limit_right = 0
+limit_right = 800
 limit_bottom = 0
 script = ExtResource( 2 )
 focusNode = NodePath("../Player")
-snapRounded = 1
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource( 16 )
@@ -378,15 +377,17 @@ tile_data = PoolIntArray( 65554, 1610612736, 0, 65555, 1610612736, 0, 65556, 161
 
 [node name="SavePoint" parent="Saves" instance=ExtResource( 8 )]
 position = Vector2( 96, 192 )
-difficulty = 1
 
 [node name="SavePoint2" parent="Saves" instance=ExtResource( 8 )]
 position = Vector2( 1391.38, 174.62 )
-difficulty = 1
 
-[node name="Hazards" type="Node2D" parent="."]
+[node name="Hazards" type="Node2D" parent="." groups=[
+"IgnoreBlood",
+]]
 
-[node name="Block" type="KinematicBody2D" parent="Hazards"]
+[node name="Block" type="KinematicBody2D" parent="Hazards" groups=[
+"IgnoreBlood",
+]]
 position = Vector2( 0, 32 )
 motion/sync_to_physics = true
 script = ExtResource( 6 )
@@ -411,7 +412,9 @@ collision_mask = 0
 position = Vector2( -6.10352e-05, -3.05176e-05 )
 shape = SubResource( 20 )
 
-[node name="Block2" type="KinematicBody2D" parent="Hazards"]
+[node name="Block2" type="KinematicBody2D" parent="Hazards" groups=[
+"IgnoreBlood",
+]]
 position = Vector2( 32, -96 )
 motion/sync_to_physics = true
 script = ExtResource( 6 )
@@ -436,7 +439,9 @@ collision_mask = 0
 position = Vector2( -6.10352e-05, -3.05176e-05 )
 shape = SubResource( 20 )
 
-[node name="Block3" type="KinematicBody2D" parent="Hazards"]
+[node name="Block3" type="KinematicBody2D" parent="Hazards" groups=[
+"IgnoreBlood",
+]]
 position = Vector2( 64, -192 )
 motion/sync_to_physics = true
 script = ExtResource( 6 )
@@ -461,7 +466,9 @@ collision_mask = 0
 position = Vector2( -6.10352e-05, -3.05176e-05 )
 shape = SubResource( 20 )
 
-[node name="Block4" type="KinematicBody2D" parent="Hazards"]
+[node name="Block4" type="KinematicBody2D" parent="Hazards" groups=[
+"IgnoreBlood",
+]]
 position = Vector2( 192, 64 )
 motion/sync_to_physics = true
 script = ExtResource( 6 )
@@ -486,7 +493,9 @@ collision_mask = 0
 position = Vector2( -6.10352e-05, -3.05176e-05 )
 shape = SubResource( 20 )
 
-[node name="Block5" type="KinematicBody2D" parent="Hazards"]
+[node name="Block5" type="KinematicBody2D" parent="Hazards" groups=[
+"IgnoreBlood",
+]]
 position = Vector2( 320, 128 )
 motion/sync_to_physics = true
 script = ExtResource( 6 )
@@ -511,7 +520,9 @@ collision_mask = 0
 position = Vector2( -6.10352e-05, -3.05176e-05 )
 shape = SubResource( 20 )
 
-[node name="Block6" type="KinematicBody2D" parent="Hazards"]
+[node name="Block6" type="KinematicBody2D" parent="Hazards" groups=[
+"IgnoreBlood",
+]]
 position = Vector2( 384, -32 )
 motion/sync_to_physics = true
 script = ExtResource( 6 )
@@ -536,7 +547,9 @@ collision_mask = 0
 position = Vector2( -6.10352e-05, -3.05176e-05 )
 shape = SubResource( 20 )
 
-[node name="Block7" type="KinematicBody2D" parent="Hazards"]
+[node name="Block7" type="KinematicBody2D" parent="Hazards" groups=[
+"IgnoreBlood",
+]]
 position = Vector2( 320, -128 )
 motion/sync_to_physics = true
 script = ExtResource( 6 )
@@ -577,7 +590,9 @@ rotation = 3.14159
 position = Vector2( 912, 176 )
 rotation = 3.14159
 
-[node name="Block8" type="KinematicBody2D" parent="Hazards"]
+[node name="Block8" type="KinematicBody2D" parent="Hazards" groups=[
+"IgnoreBlood",
+]]
 position = Vector2( 576, 192 )
 motion/sync_to_physics = true
 script = ExtResource( 6 )
@@ -605,7 +620,9 @@ shape = SubResource( 20 )
 [node name="Spike" parent="Hazards/Block8" instance=ExtResource( 13 )]
 position = Vector2( 656, 368 )
 
-[node name="Block9" type="KinematicBody2D" parent="Hazards"]
+[node name="Block9" type="KinematicBody2D" parent="Hazards" groups=[
+"IgnoreBlood",
+]]
 position = Vector2( 672, 192 )
 motion/sync_to_physics = true
 script = ExtResource( 6 )
@@ -630,7 +647,9 @@ collision_mask = 0
 position = Vector2( -6.10352e-05, -3.05176e-05 )
 shape = SubResource( 20 )
 
-[node name="Block10" type="KinematicBody2D" parent="Hazards"]
+[node name="Block10" type="KinematicBody2D" parent="Hazards" groups=[
+"IgnoreBlood",
+]]
 position = Vector2( 576, 256 )
 motion/sync_to_physics = true
 script = ExtResource( 6 )

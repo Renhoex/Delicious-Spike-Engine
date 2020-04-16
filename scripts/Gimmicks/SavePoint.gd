@@ -9,7 +9,7 @@ func _ready():
 		queue_free();
 	_on_Save_frame_changed();
 
-func _process(delta):
+func _process(_delta):
 	# change the save icon in the editor
 	if Engine.editor_hint:
 		if difficulty == 0:
@@ -18,7 +18,7 @@ func _process(delta):
 			$Save.frame = 0;
 
 # if an object with the player bullet mask interacts run the save procedure
-func _on_Area2D_body_entered(body):
+func _on_Area2D_body_entered(_body):
 	var playRef = weakref(Global.player);
 	if (playRef.get_ref()):
 		SaveData.saveData["position"] = Global.player.position;
@@ -29,4 +29,5 @@ func _on_Area2D_body_entered(body):
 # increase whatever the current frame is by 2 if on medium
 func _on_Save_frame_changed():
 	if difficulty == 0 && !Engine.editor_hint:
-		$Save.frame += 2;
+		if ($Save.frame+2 < $Save.vframes*$Save.hframes):
+			$Save.frame += 2;

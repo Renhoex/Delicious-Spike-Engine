@@ -17,7 +17,7 @@ func _ready():
 	if current:
 		Global.currentCamera = self;
 
-func _process(delta):
+func _process(_delta):
 	if Engine.editor_hint:
 		# snap camera to mouse
 		var mouse = get_global_mouse_position();

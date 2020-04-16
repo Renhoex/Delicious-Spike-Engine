@@ -398,13 +398,12 @@ position = Vector2( 1280, 96 )
 position = Vector2( 1280, 96 )
 z_index = 500
 current = true
-limit_left = 1600
+limit_left = 0
 limit_top = 0
-limit_right = 2400
+limit_right = 800
 limit_bottom = 600
 script = ExtResource( 2 )
 focusNode = NodePath("../Player")
-snapRounded = 1
 
 [node name="Scenery" type="Node2D" parent="."]
 
@@ -741,21 +740,16 @@ frame = 4
 position = Vector2( 1232.26, 880 )
 rotation = 1.5708
 direction = 1
-nodeFlips = [ NodePath("../Platforms/MovingPlatform/PlayerCollision"), NodePath("../Platforms/MovingPlatform2/PlayerCollision"), NodePath("../Platforms/MovingPlatform3/PlayerCollision") ]
 
 [node name="GravitySetter2" parent="." instance=ExtResource( 17 )]
 position = Vector2( 1200, 720 )
-direction = 0
-nodeFlips = [ NodePath("../Platforms/MovingPlatform/PlayerCollision"), NodePath("../Platforms/MovingPlatform2/PlayerCollision"), NodePath("../Platforms/MovingPlatform3/PlayerCollision") ]
 
 [node name="Vine" parent="." instance=ExtResource( 19 )]
 position = Vector2( 624, 832 )
-side = 0
 length = 6.0
 
 [node name="Vine3" parent="." instance=ExtResource( 19 )]
 position = Vector2( 1391.84, 16 )
-side = 0
 length = 4.0
 
 [node name="Vine4" parent="." instance=ExtResource( 19 )]
@@ -784,46 +778,33 @@ warpNode = NodePath("../MazeWarp3")
 
 [node name="MazeWarp2" parent="." instance=ExtResource( 20 )]
 position = Vector2( 427.752, 8 )
-warpNode = NodePath("")
 
 [node name="Water" parent="." instance=ExtResource( 21 )]
 position = Vector2( -336, 448 )
 scale = Vector2( 5, 6 )
-type = 0
-gravMultiplier = 0.75
-walkMultiplier = 0.75
 
 [node name="Water2" parent="." instance=ExtResource( 21 )]
 position = Vector2( -448, 512 )
 scale = Vector2( 2, 2 )
 z_index = -1
-type = 0
-gravMultiplier = 0.75
-walkMultiplier = 0.75
 
 [node name="Water3" parent="." instance=ExtResource( 21 )]
 position = Vector2( -544, 512 )
 scale = Vector2( 2, 2 )
 z_index = -1
 type = 1
-gravMultiplier = 0.75
-walkMultiplier = 0.75
 
 [node name="Water4" parent="." instance=ExtResource( 21 )]
 position = Vector2( -672, 384 )
 scale = Vector2( 6, 10 )
 z_index = -1
 type = 1
-gravMultiplier = 0.75
-walkMultiplier = 0.75
 
 [node name="Water5" parent="." instance=ExtResource( 21 )]
 position = Vector2( -256, 112 )
 scale = Vector2( 11.64, 5 )
 z_index = -1
 type = 2
-gravMultiplier = 0.75
-walkMultiplier = 0.75
 
 [node name="EnemyExample" parent="." instance=ExtResource( 22 )]
 position = Vector2( -720, 80 )

@@ -13,7 +13,12 @@ func _ready():
 		# check that the file exists
 		var path = "user://save"+String(fileID)+".png";
 		var img = Image.new();
-		var err = img.load(path);
+		# error check
+		var err = 1;
+		# see if err can load image
+		if (File.new().file_exists(path)):
+			err = img.load(path);
+		
 		if err != 0:
 			print("Save file not found || Using new file icon");
 		else:

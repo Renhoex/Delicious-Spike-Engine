@@ -11,7 +11,7 @@ var saveData;
 var lastSave;
 
 #var powerList = [1]
-var thread = Thread.new();
+var saveThread = Thread.new();
 
 func _ready():
 	reset_data();
@@ -21,14 +21,20 @@ func _ready():
 func save():
 	var image = get_viewport().get_texture().get_data();
 	image.flip_y();
+	# wait for the last thread to finish if it's not finished yet to prevent conflicts
+	if saveThread.is_active():
+		saveThread.wait_to_finish();
 	# start new thread to save game and not pause game
-	thread = Thread.new();
-	thread.start(self, "_thread_function", image);
+	saveThread = Thread.new();
+	saveThread.start(self, "_thread_function", image);
 	lastSave = saveData.duplicate(true);
 
 func save_death():
-	thread = Thread.new();
-	thread.start(self, "_thread_function");
+	# wait for the last thread to finish if it's not finished yet to prevent conflicts
+	if saveThread.is_active():
+		saveThread.wait_to_finish();
+	saveThread = Thread.new();
+	saveThread.start(self, "_thread_function");
 	lastSave = saveData.duplicate(true);
 
 
@@ -44,7 +50,8 @@ func _thread_function(userdata):
 
 
 func _exit_tree():
-	thread.wait_to_finish();
+	if saveThread.is_active():
+		saveThread.wait_to_finish();
 
 
 func load_game():

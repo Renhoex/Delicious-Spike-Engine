@@ -3,8 +3,6 @@
 [ext_resource path="res://scripts/Player/DeathHandler.gd" type="Script" id=1]
 [ext_resource path="res://audio/sfx/Player/Death.wav" type="AudioStream" id=2]
 
-
-
 [node name="DeathHandler" type="Node2D"]
 script = ExtResource( 1 )
 

@@ -88,7 +88,7 @@ func change_song_stream(song = null):
 			Global.main.get_node("Music").stop();
 
 # save configuration data
-func save_data(fileID):
+func save_data():
 	var save_dict = {
 		"musicVolume" : AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Music")),
 		"soundVolume" : AudioServer.get_bus_volume_db(AudioServer.get_bus_index("SFX")),
@@ -125,9 +125,12 @@ func load_data():
 func _input(event):
 	if event.is_action_pressed("gm_game_reset") && !reset:
 		# this line will reset the game
-		get_tree().reload_current_scene();
+		var isReset = get_tree().reload_current_scene();
 		# we use reset to prevent the game from reseting every frame
-		reset = true;
-		Global.main = null;
+		if (isReset == 0):
+			reset = true;
+			Global.main = null;
+		else:
+			print("Reset failed");
 	elif event.is_action_released("gm_game_reset") && reset:
 		reset = false;

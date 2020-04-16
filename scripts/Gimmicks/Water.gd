@@ -28,7 +28,7 @@ func _ready():
 				$WaterTop.visible = false;
 				$WaterTop/Water.visible = false;
 		
-func _process(delta):
+func _process(_delta):
 	# Editor only, we don't want these activating every frame in game.
 	# same as ready but with some additional code
 	if Engine.editor_hint:

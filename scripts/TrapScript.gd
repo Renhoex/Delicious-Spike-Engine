@@ -18,7 +18,6 @@ func _ready():
 	visible = startVisible;
 
 func _physics_process(delta):
-	var positionOverwrite = Vector2.ZERO;
 	# only run logic if active
 	if (active && !locked):
 		# if the object is collidable then stop movement when colliding
@@ -33,25 +32,15 @@ func _physics_process(delta):
 			# if bounce then bounce the velocity in the other direction (do an exception for the player)
 			var collisions = get_slide_count();
 			if (collisions > 0):
-				# overwrite position
-				#positionOverwrite = position + move;
-				#set end position
 				position += move*delta;
 				if bounce:
 					for i in collisions:
-						#positionOverwrite = move
 						# avoid having the object stick
 						if velocity.normalized() != get_slide_collision(i).normal:
 							velocity = velocity.bounce(get_slide_collision(i).normal);
 				else:
 					velocity = move;
-			#else:
-			# if no bounce then set velocity to move
-			#	velocity = move;
 		# move
-		#if (positionOverwrite != Vector2.ZERO):
-		#	position = positionOverwrite;
-		#else:
 		position += velocity*pixelsPerSecond*delta;
 		
 		
@@ -68,7 +57,7 @@ func _physics_process(delta):
 			stopTime -= delta;
 
 
-func _on_Trigger_body_entered(body):
+func _on_Trigger_body_entered(_body):
 	# check that the trigger is not active or is reactivatable
 	if !active || reactivatable:
 		# set visibility based on what set visibiliy is
