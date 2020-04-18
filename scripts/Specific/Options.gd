@@ -2,6 +2,11 @@ extends Node
 var option = 0;
 onready var optionSize = get_parent().get_node("MenuList").get_child_count();
 var locked = false;
+var auto = false;
+export (NodePath)var rebindStart;
+export (NodePath)var rebindEnd;
+onready var autoStart = get_node(rebindStart);
+onready var autoEnd = get_node(rebindEnd);
 
 func _process(_delta):
 	#for i in get_parent().get_node("MenuList").get_child_count():

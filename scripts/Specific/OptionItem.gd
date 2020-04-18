@@ -1,7 +1,8 @@
 extends Label
-export (int, "SFX", "Music", "VSync", "Display Type", "key Maps", "Joy Maps", "Back")var type = 0;
+export (int, "SFX", "Music", "VSync", "Display Type", "key Maps", "Auto Key", "Auto Pad", "Back")var type = 0;
 var displayNames = ["None", "Heads up display", "On Window"];
 var active = false;
+onready var options = get_parent().get_parent().get_node("OptionScript");
 
 #set texts
 func _process(delta):
@@ -15,6 +16,8 @@ func _process(delta):
 			text = "VSync: "+str(OS.vsync_enabled);
 		3: #Options
 			text = "Time and Death Display: "+displayNames[Global.counter];
+			
+			
 	# ative check
 	if (active):
 		match(type):
@@ -31,7 +34,7 @@ func _process(delta):
 					if !$SampleSound.playing:
 						$SampleSound.play();
 				# reset sound
-				if Input.is_action_just_pressed("gm_action"):
+				if Input.is_action_just_released("gm_action"):
 					sound = 0;
 				# clamp sound
 				sound = clamp(sound,-80,6);
@@ -46,14 +49,14 @@ func _process(delta):
 				if Input.is_action_pressed("gm_right"):
 					sound += delta*20;
 				# reset sound
-				if Input.is_action_just_pressed("gm_action"):
+				if Input.is_action_just_released("gm_action"):
 					sound = 0;
 				# clamp sound
 				sound = clamp(sound,-80,6);
 				# set volume
 				AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"),sound);
 			2: # VSync
-				if Input.is_action_just_pressed("gm_jump"):
+				if Input.is_action_just_released("gm_jump"):
 					OS.vsync_enabled = !OS.vsync_enabled;
 			3: # Counters
 				# decrease counter
@@ -67,8 +70,37 @@ func _process(delta):
 				Global.counter = fmod(Global.counter,3);
 				if Global.counter < 0:
 					Global.counter += 3;
-			6: # Back
-				if Input.is_action_just_pressed("gm_jump"):
+			4: # key binds (handled in their own script), continue to avoid match mismatch
+				continue;
+			5: # auto map key
+				if (Input.is_action_just_released("gm_jump") && options.autoStart != null && !options.auto):
+					# set a check variable
+					var found = false;
+					var foundEnd = false;
+					# find first option
+					for i in get_parent().get_child_count():
+						if get_parent().get_child(i) == options.autoStart:
+							# first option was found
+							found = true;
+							options.option = i;
+						# we make sure found is true first so that the node order isn't messed up
+						if get_parent().get_child(i) == options.autoEnd && found:
+							foundEnd = true;
+					#error check
+					if (!found || !foundEnd):
+						print("ERROR: could not find first key bind option");
+					else:
+						get_parent().get_child(options.option).activate();
+						options.auto = true;
+						options.locked = true;
+						# deactivate self
+						active = false;
+			6:
+				if (Input.is_action_just_released("gm_jump") && options.autoStart != null):
+					print(type);
+				
+			7: # Back
+				if (Input.is_action_just_released("gm_jump")):
 					# save config settings
 					Global.save_data();
 					Global.main.load_room("Menu/FileSelect");

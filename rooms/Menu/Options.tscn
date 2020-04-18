@@ -15,6 +15,8 @@ music = ExtResource( 4 )
 
 [node name="OptionScript" type="Node" parent="."]
 script = ExtResource( 2 )
+rebindStart = NodePath("../MenuList/RightKey")
+rebindEnd = NodePath("../MenuList/StartKey")
 
 [node name="Spike" parent="." instance=ExtResource( 1 )]
 position = Vector2( 43.2641, 18.2079 )
@@ -85,7 +87,7 @@ margin_right = 681.0
 margin_bottom = 104.0
 text = "Gamepad Bind"
 script = ExtResource( 5 )
-type = 5
+type = 6
 
 [node name="RightKey" type="Label" parent="MenuList"]
 margin_top = 108.0
@@ -183,4 +185,4 @@ margin_right = 681.0
 margin_bottom = 302.0
 text = "Back"
 script = ExtResource( 5 )
-type = 6
+type = 7
