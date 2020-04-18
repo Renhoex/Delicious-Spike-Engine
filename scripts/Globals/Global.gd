@@ -21,11 +21,18 @@ const DIFFICULTY_IMPOSSIBLE = 3;
 var musicVolume = AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Music"));
 var soundVolume = AudioServer.get_bus_volume_db(AudioServer.get_bus_index("SFX"));
 var vsync = OS.vsync_enabled;
+var counter = 0;
+
+# load config data
+func _ready():
+	load_data();
 
 # reload function
 func reload(increaseDeath = true):
 	# check that a main node has been assigned and that save file is not a negative number
 	if (main != null && canReset):
+		# don't reload time
+		var rememberTime = SaveData.saveData["time"];
 		# reload the data from the last save
 		SaveData.saveData = SaveData.lastSave.duplicate(true);
 		# reset game over if the game is game over'd
@@ -39,6 +46,7 @@ func reload(increaseDeath = true):
 		# if increase death, increase the counter
 		if increaseDeath:
 			SaveData.saveData["deaths"] += 1;
+			SaveData.saveData["time"] = rememberTime;
 			# record deaths
 			SaveData.save_death();
 		
@@ -60,12 +68,33 @@ func screen_freeze():
 		# run the fade in animation, by default it just immediate fades out
 		main.get_node("HUD/FadeGhost").play("FadeIn");
 
+# count time and death
 func _process(delta):
-	# count game timer
-	SaveData.saveData["time"] += delta;
-	# if the reload button was pressed then reload
-	if Input.is_action_just_pressed("gm_restart"):
-		reload();
+	# exclude rooms in the menu folder or if the save file id is fake
+	if (!room.begins_with("Menu/") && SaveData.saveFileID > -1):
+		# count game timer
+		SaveData.saveData["time"] += delta;
+		
+		if counter > 0:
+			var time = SaveData.saveData["time"];
+			# calculate time
+			var hours   = floor((time / 60) / 60);
+			var minutes = floor(fmod(time / 60.0, 60));
+			var seconds = floor(fmod(time, 60.0));
+			
+			if counter == 1:
+				main.get_node("HUD/Counters/Time").text = ("%02d" % hours)+":"+("%02d" % minutes)+":"+("%02d" % seconds);
+				main.get_node("HUD/Counters/Death").text = str(SaveData.saveData["deaths"]);
+			else:
+				var caption = ProjectSettings.get_setting("application/config/name");
+				caption += " | Deaths: " + str(SaveData.saveData["deaths"]);
+				caption += " | Time: " + ("%02d" % hours)+":"+("%02d" % minutes)+":"+("%02d" % seconds);
+				OS.set_window_title(caption);
+				
+			
+		# if the reload button was pressed then reload
+		if Input.is_action_just_pressed("gm_restart"):
+			reload();
 
 # change the currently playing song (uses string)
 func change_song(songName = null):
@@ -93,6 +122,7 @@ func save_data():
 		"musicVolume" : AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Music")),
 		"soundVolume" : AudioServer.get_bus_volume_db(AudioServer.get_bus_index("SFX")),
 		"vsync" : OS.vsync_enabled,
+		"counters" : counter,
 	}
 	
 	#create and write file
@@ -114,9 +144,15 @@ func load_data():
 	while file.get_position() < file.get_len():
 		var data = parse_json(file.get_line());
 		
-		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"),data["musicVolume"]);
-		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("SFX"),data["soundVolume"]);
-		OS.vsync_enabled = data["vsync"];
+		# check that values are in data to prevent crashing
+		if data.has("musicVolume"):
+			AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"),data["musicVolume"]);
+		if data.has("soundVolume"):
+			AudioServer.set_bus_volume_db(AudioServer.get_bus_index("SFX"),data["soundVolume"]);
+		if data.has("vsync"):
+			OS.vsync_enabled = data["vsync"];
+		if data.has("counters"):
+			counter = data["counters"];
 		
 	file.close();
 	return true;
@@ -130,6 +166,10 @@ func _input(event):
 		if (isReset == 0):
 			reset = true;
 			Global.main = null;
+			# reset save
+			SaveData.saveFileID = -1;
+			# reset window caption
+			OS.set_window_title(ProjectSettings.get_setting("application/config/name"));
 		else:
 			print("Reset failed");
 	elif event.is_action_released("gm_game_reset") && reset:

@@ -75,6 +75,10 @@ func _process(delta):
 					1: #new game
 						# go to the new game interface
 						menu = MENU_FILE_NEW_GAME;
+						# reset timer
+						SaveData.saveData["time"] = 0.0;
+						# reset death
+						SaveData.saveData["deaths"] = 0;
 						menuOption = 1; # set to hard by default
 		
 	

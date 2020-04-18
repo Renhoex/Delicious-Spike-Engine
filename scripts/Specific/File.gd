@@ -42,7 +42,7 @@ func _ready():
 			var hours   = floor((time / 60) / 60);
 			var minutes = floor(fmod(time / 60.0, 60));
 			var seconds = floor(fmod(time, 60.0));
-			$TextContainer/Time.text = "Time: " + str(hours) + ":" + str(minutes) + ":" + str(seconds);
+			$TextContainer/Time.text = "Time: " + ("%02d" % hours)+":"+("%02d" % minutes)+":"+("%02d" % seconds);
 			# set deaths
 			$TextContainer/Deaths.text = "Deaths: " + str(SaveData.saveData["deaths"]);
 			
