@@ -4,9 +4,10 @@ A public open source clone of I wanna be the guy fangame recreated in godot to h
 This was created with Godot 3.2.1 which can be aquired at https://godotengine.org/
 
 # Change-log
-1.0
+# 1.0
 - initial release
-1.1
+
+# 1.1
 - Cleaned the code to remove errors from the debugger such as unused variables and unfinished threads
 - Moving platforms are more accurate
 - Better blood physics
