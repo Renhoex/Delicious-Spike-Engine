@@ -10,12 +10,10 @@ const POWER_DJUMP = 0;
 var saveData;
 var lastSave;
 
-#var powerList = [1]
 var saveThread = Thread.new();
 
 func _ready():
 	reset_data();
-	#saveFileID = Global.lastFile;
 	load_game();
 
 func save():

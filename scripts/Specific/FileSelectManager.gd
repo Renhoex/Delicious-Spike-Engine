@@ -56,6 +56,8 @@ func _process(delta):
 					menu = MENU_FILE_OPTIONS;
 					menuOption = 0; # set to 0 for load, 1 for new game by default
 			MENU_FILE_NEW_GAME: # new game selection
+				# reset data
+				SaveData.reset_data();
 				# make the difficulty match the option
 				SaveData.saveData["difficulty"] = menuOption;
 				# set transition to auto save to indicate a new game

@@ -399,10 +399,10 @@ position = Vector2( 1280, 96 )
 position = Vector2( 1280, 96 )
 z_index = 500
 current = true
-limit_left = -1600
-limit_top = 600
-limit_right = -800
-limit_bottom = 1200
+limit_left = 0
+limit_top = -600
+limit_right = 800
+limit_bottom = 0
 script = ExtResource( 2 )
 focusNode = NodePath("../Player")
 

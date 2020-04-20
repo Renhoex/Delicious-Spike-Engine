@@ -14,8 +14,12 @@ func _process(delta):
 			text = "Music: "+str(round(((AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Music"))+80)/86)*100))+"%";
 		2: # VSync
 			text = "VSync: "+str(OS.vsync_enabled);
-		3: #Options
+		3: # Options
 			text = "Time and Death Display: "+displayNames[Global.counter];
+		6: # Pad check
+			if (Input.get_connected_joypads().size() == 0):
+				# delete option if no pads
+				queue_free();
 			
 			
 	# ative check
@@ -72,7 +76,7 @@ func _process(delta):
 					Global.counter += 3;
 			4: # key binds (handled in their own script), continue to avoid match mismatch
 				continue;
-			5: # auto map key
+			5, 6: # auto map key
 				if (Input.is_action_just_released("gm_jump") && options.autoStart != null && !options.auto):
 					# set a check variable
 					var found = false;
@@ -88,16 +92,13 @@ func _process(delta):
 							foundEnd = true;
 					#error check
 					if (!found || !foundEnd):
-						print("ERROR: could not find first key bind option");
+						print("ERROR: could not find first bind option");
 					else:
 						get_parent().get_child(options.option).activate();
-						options.auto = true;
+						options.auto = type-4; # 5 will be key, 6 will be pad
 						options.locked = true;
 						# deactivate self
 						active = false;
-			6:
-				if (Input.is_action_just_released("gm_jump") && options.autoStart != null):
-					print(type);
 				
 			7: # Back
 				if (Input.is_action_just_released("gm_jump")):
