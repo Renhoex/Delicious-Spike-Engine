@@ -1,7 +1,7 @@
 extends Node
 
 #temp data
-var saveFileID = 0;
+var saveFileID = -1; #-1 for testing
 
 # powers
 const POWER_DJUMP = 0;
@@ -10,25 +10,29 @@ const POWER_DJUMP = 0;
 var saveData;
 var lastSave;
 
-#var powerList = [1]
-var thread = Thread.new();
+var saveThread = Thread.new();
 
 func _ready():
 	reset_data();
-	#saveFileID = Global.lastFile;
 	load_game();
 
 func save():
 	var image = get_viewport().get_texture().get_data();
 	image.flip_y();
+	# wait for the last thread to finish if it's not finished yet to prevent conflicts
+	if saveThread.is_active():
+		saveThread.wait_to_finish();
 	# start new thread to save game and not pause game
-	thread = Thread.new();
-	thread.start(self, "_thread_function", image);
+	saveThread = Thread.new();
+	saveThread.start(self, "_thread_function", image);
 	lastSave = saveData.duplicate(true);
 
 func save_death():
-	thread = Thread.new();
-	thread.start(self, "_thread_function");
+	# wait for the last thread to finish if it's not finished yet to prevent conflicts
+	if saveThread.is_active():
+		saveThread.wait_to_finish();
+	saveThread = Thread.new();
+	saveThread.start(self, "_thread_function");
 	lastSave = saveData.duplicate(true);
 
 
@@ -44,7 +48,8 @@ func _thread_function(userdata):
 
 
 func _exit_tree():
-	thread.wait_to_finish();
+	if saveThread.is_active():
+		saveThread.wait_to_finish();
 
 
 func load_game():
@@ -62,11 +67,14 @@ func load_game():
 		for i in data.keys():
 			if saveData.has(i):
 				saveData[i] = data[i];
-		
+	
 	save_game.close();
+	
+	# convert any remaining strings
 	var vec = saveData["position"];
-	vec = vec.replace("(","").replace(")","").split(",");
+	vec = convert_to_array(vec);
 	saveData["position"] = Vector2(vec[0],vec[1]);
+	# save current data
 	lastSave = saveData.duplicate(true);
 	return true;
 
@@ -78,6 +86,11 @@ func reset_data():
 	"time" : 0.0,
 	"canDoubleJump" : true,
 	"difficulty" : Global.DIFFICULTY_MEDIUM,
+	"progress" : [0,0,0,0,0,0,0,0]
 	}
 	# create temporary data
 	lastSave = saveData.duplicate(true);
+
+func convert_to_array(string):
+	return string.replace("(","").replace(")","").split(",");
+	

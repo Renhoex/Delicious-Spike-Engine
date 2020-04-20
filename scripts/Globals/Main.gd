@@ -9,6 +9,8 @@ func _ready():
 	Global.debug = debugMode;
 	# set main to this node
 	Global.main = self;
+	if Global.counter != 1:
+		$HUD/Counters.visible = false;
 
 # load a room with a fade
 func load_room_fade(RoomName,fade = 0):

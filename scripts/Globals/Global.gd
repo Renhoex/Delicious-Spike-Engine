@@ -21,11 +21,18 @@ const DIFFICULTY_IMPOSSIBLE = 3;
 var musicVolume = AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Music"));
 var soundVolume = AudioServer.get_bus_volume_db(AudioServer.get_bus_index("SFX"));
 var vsync = OS.vsync_enabled;
+var counter = 0;
+
+# load config data
+func _ready():
+	load_data();
 
 # reload function
 func reload(increaseDeath = true):
 	# check that a main node has been assigned and that save file is not a negative number
 	if (main != null && canReset):
+		# don't reload time
+		var rememberTime = SaveData.saveData["time"];
 		# reload the data from the last save
 		SaveData.saveData = SaveData.lastSave.duplicate(true);
 		# reset game over if the game is game over'd
@@ -39,6 +46,7 @@ func reload(increaseDeath = true):
 		# if increase death, increase the counter
 		if increaseDeath:
 			SaveData.saveData["deaths"] += 1;
+			SaveData.saveData["time"] = rememberTime;
 			# record deaths
 			SaveData.save_death();
 		
@@ -60,12 +68,35 @@ func screen_freeze():
 		# run the fade in animation, by default it just immediate fades out
 		main.get_node("HUD/FadeGhost").play("FadeIn");
 
+# count time and death
 func _process(delta):
-	# count game timer
-	SaveData.saveData["time"] += delta;
-	# if the reload button was pressed then reload
-	if Input.is_action_just_pressed("gm_restart"):
-		reload();
+	# exclude rooms in the menu folder or if the save file id is fake
+	if (!room.begins_with("Menu/") && SaveData.saveFileID > -1):
+		# count game timer
+		SaveData.saveData["time"] += delta;
+		
+		if counter > 0:
+			var time = SaveData.saveData["time"];
+			# calculate time
+			var hours   = floor((time / 60) / 60);
+			var minutes = floor(fmod(time / 60.0, 60));
+			var seconds = floor(fmod(time, 60.0));
+			var milli = fmod(time,1.0);
+			
+			if counter == 1:
+				main.get_node("HUD/Counters/Time").text = ("%02d" % hours)+":"+("%02d" % minutes)+":"+("%02d" % seconds)+("%0.2f" % milli).right(1);
+				main.get_node("HUD/Counters/Death").text = str(SaveData.saveData["deaths"]);
+			else:
+				var caption = ProjectSettings.get_setting("application/config/name");
+				caption += " | Deaths: " + str(SaveData.saveData["deaths"]);
+				caption += " | Time: " + ("%02d" % hours)+":"+("%02d" % minutes)+":"+("%02d" % seconds)+("%0.2f" % milli).right(1);
+				
+				OS.set_window_title(caption);
+				
+			
+		# if the reload button was pressed then reload
+		if Input.is_action_just_pressed("gm_restart"):
+			reload();
 
 # change the currently playing song (uses string)
 func change_song(songName = null):
@@ -88,46 +119,111 @@ func change_song_stream(song = null):
 			Global.main.get_node("Music").stop();
 
 # save configuration data
-func save_data(fileID):
-	var save_dict = {
-		"musicVolume" : AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Music")),
-		"soundVolume" : AudioServer.get_bus_volume_db(AudioServer.get_bus_index("SFX")),
-		"vsync" : OS.vsync_enabled,
-	}
+func save_data():
 	
-	#create and write file
-	var file = File.new();
-	file.open("user://Config.conf", File.WRITE);
-	file.store_line(to_json(save_dict));
-	file.close();
+	var file = ConfigFile.new();
+		
+	file.set_value("sound","musicVolume",AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Music")));
+	file.set_value("sound","soundVolume",AudioServer.get_bus_volume_db(AudioServer.get_bus_index("SFX")));
+	file.set_value("video","vsync",OS.vsync_enabled);
+	# save inputs
+	var actionCount = 0;
+	for i in InputMap.get_actions(): # input names
+		actionCount = 0;
+		for j in InputMap.get_action_list(i): # the keys
+			# key storage is complex, here we keep a record of keys, gamepad buttons and gamepad axis's
+			# prefix keys: K = Key, B = joypad Button, A = Axis, V = AxisValue
+			if j is InputEventKey:
+				file.set_value("controls","K"+str(actionCount)+i,j.get_scancode_with_modifiers());
+			elif j is InputEventJoypadButton:
+				file.set_value("controls","B"+str(actionCount)+i,j.button_index);
+			elif j is InputEventJoypadMotion:
+				file.set_value("controls","A"+str(actionCount)+i,j.axis);
+				file.set_value("controls","V"+str(actionCount)+i,j.axis_value);
+			# incease counters (prevents conflicts)
+			actionCount += 1;
+	# save config and close
+	file.save("user://Config.cfg");
 	
 
 # load config data
 func load_data():
-	var file = File.new();
-	if not file.file_exists("user://Config.conf"):
+	var file = ConfigFile.new();
+	var err = file.load("user://Config.cfg");
+	if err != OK:
 		return false; # Return false as an error
 
-	# read the file
-	file.open("user://Config.conf", File.READ);
-	# parse each line and set the config data
-	while file.get_position() < file.get_len():
-		var data = parse_json(file.get_line());
+	# load volumes
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"),file.get_value("sound","musicVolume",AudioServer.get_bus_volume_db(AudioServer.get_bus_index("Music"))));
+	AudioServer.set_bus_volume_db(AudioServer.get_bus_index("SFX"),file.get_value("sound","soundVolume",AudioServer.get_bus_volume_db(AudioServer.get_bus_index("SFX"))));
+	OS.vsync_enabled = file.get_value("video","vsync",OS.vsync_enabled);
+	counter = file.get_value("display","counters",counter);
+	
+	# load inputs
+	var actionCount = 0;
+	for i in InputMap.get_actions(): # loop through input names
 		
-		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("Music"),data["musicVolume"]);
-		AudioServer.set_bus_volume_db(AudioServer.get_bus_index("SFX"),data["soundVolume"]);
-		OS.vsync_enabled = data["vsync"];
+		# prefix keys: K = Key, B = joypad Button, A = Axis, V = AxisValue
 		
-	file.close();
+		# check for any inputs, if any are found then remove binding
+		if (file.has_section_key("controls","K0"+i) || 
+		file.has_section_key("controls","B0"+i) ||
+		file.has_section_key("controls","A0"+i) || 
+		file.has_section_key("controls","V0"+i)):
+			# clear input
+			InputMap.action_erase_events(i);
+		# check prefixes
+		while (file.has_section_key("controls","K"+str(actionCount)+i) || 
+		file.has_section_key("controls","B"+str(actionCount)+i) ||
+		file.has_section_key("controls","A"+str(actionCount)+i) || 
+		file.has_section_key("controls","V"+str(actionCount)+i)):
+			
+			# keyboard check
+			if (file.has_section_key("controls","K"+str(actionCount)+i)):
+				# define new key
+				var getInput = InputEventKey.new();
+				# grab scancode
+				getInput.scancode = file.get_value("controls","K"+str(actionCount)+i);
+				# set new input
+				InputMap.action_add_event(i,getInput);
+			# joypad button check
+			if (file.has_section_key("controls","B"+str(actionCount)+i)):
+				# define new key
+				var getInput = InputEventJoypadButton.new();
+				# grab button index
+				getInput.button_index = file.get_value("controls","B"+str(actionCount)+i);
+				# set new input
+				InputMap.action_add_event(i,getInput);
+			# joypad Axis check
+			if (file.has_section_key("controls","A"+str(actionCount)+i) &&
+			file.has_section_key("controls","V"+str(actionCount)+i)):
+				# define new key
+				var getInput = InputEventJoypadMotion.new();
+				# grab axis
+				getInput.axis = file.get_value("controls","A"+str(actionCount)+i);
+				getInput.axis_value = file.get_value("controls","V"+str(actionCount)+i);
+				# set new input
+				InputMap.action_add_event(i,getInput);
+			
+			actionCount += 1;
+		# reset action counter
+		actionCount = 0;
 	return true;
 
 # game reset
 func _input(event):
 	if event.is_action_pressed("gm_game_reset") && !reset:
 		# this line will reset the game
-		get_tree().reload_current_scene();
+		var isReset = get_tree().reload_current_scene();
 		# we use reset to prevent the game from reseting every frame
-		reset = true;
-		Global.main = null;
+		if (isReset == 0):
+			reset = true;
+			Global.main = null;
+			# reset save
+			SaveData.saveFileID = -1;
+			# reset window caption
+			OS.set_window_title(ProjectSettings.get_setting("application/config/name"));
+		else:
+			print("Reset failed");
 	elif event.is_action_released("gm_game_reset") && reset:
 		reset = false;

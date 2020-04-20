@@ -58,6 +58,8 @@ func _ready():
 			SaveData.save();
 	# set global player to self (used for referencing in other objects)
 	Global.player = self;
+	if (SaveData.saveData["difficulty"] > 0):
+		$Player/Sprite/Bow.visible = false;
 
 
 
@@ -213,8 +215,12 @@ func _process(delta):
 			else:
 				animator.play("Fall");
 	
+	# death button
+	if (Input.is_action_just_pressed("gm_die")):
+		die();
+	
 	# debug code
-	if Global.debug:
+	if (Global.debug):
 		# mouse click positions change
 		if (Input.is_mouse_button_pressed(1)):
 			global_position = get_global_mouse_position();
@@ -255,7 +261,7 @@ func _physics_process(delta):
 		
 		# move the player using velocity
 		# at this point we rotate the velocity based on gravity direction, like right gravity would make the player walk on right walls
-		move_and_slide_with_snap(velocity.rotated(gravityDirection.angle()-deg2rad(90)),snap,groundNormal,true,3,deg2rad(50));
+		var _move = move_and_slide_with_snap(velocity.rotated(gravityDirection.angle()-deg2rad(90)),snap,groundNormal,true,3,deg2rad(50));
 		
 		# set ground to the is_on_floor function
 		ground = is_on_floor();
@@ -270,10 +276,10 @@ func _physics_process(delta):
 		
 
 # death hit boxes
-func _on_HitMask_body_entered(body):
+func _on_HitMask_body_entered(_body):
 	die();
 # more death hit boxes
-func _on_HitMask_area_shape_entered(area_id, area, area_shape, self_shape):
+func _on_HitMask_area_shape_entered(_area_id, _area, _area_shape, _self_shape):
 	die();
 
 # death function
@@ -299,7 +305,7 @@ func die():
 
 
 # vine checks
-func _on_WallJumpMask_area_shape_entered(area_id, area, area_shape, self_shape):
+func _on_WallJumpMask_area_shape_entered(_area_id, area, _area_shape, _self_shape):
 	# set the current vine to the vine variable
 	vine = area.get_parent();
 	# get the player sprite
@@ -313,14 +319,14 @@ func _on_WallJumpMask_area_shape_entered(area_id, area, area_shape, self_shape):
 			sprite.scale.x = abs(sprite.scale.x);
 
 
-func _on_WallJumpMask_area_shape_exited(area_id, area, area_shape, self_shape):
+func _on_WallJumpMask_area_shape_exited(_area_id, area, _area_shape, _self_shape):
 	# check that the vine is actually the object we're exiting before removing it
 	if (area.get_parent() == vine):
 		vine = null;
 
 
 #water checks
-func _on_WaterMask_area_shape_entered(area_id, area, area_shape, self_shape):
+func _on_WaterMask_area_shape_entered(_area_id, area, _area_shape, _self_shape):
 	# set the current area to the jumpArea variable
 	jumpArea.append(area.get_parent());
 	# set multipliers
@@ -333,7 +339,7 @@ func _on_WaterMask_area_shape_entered(area_id, area, area_shape, self_shape):
 	 
 
 
-func _on_WaterMask_area_shape_exited(area_id, area, area_shape, self_shape):
+func _on_WaterMask_area_shape_exited(_area_id, area, _area_shape, _self_shape):
 	# check that the jumpArea is actually the object we're exiting before removing it
 	if (jumpArea.has(area.get_parent())):
 		# check if dark water, if it is dark water, remove the double jumps

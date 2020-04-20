@@ -14,7 +14,7 @@ onready var animationNode = get_node(animationPlayer);
 export var repeat = false;
 var active = false;
 
-func _process(delta):
+func _process(_delta):
 	if Engine.editor_hint && animationPlayer != "":
 		animationNode = get_node(animationPlayer);
 		if animationNode != null && animationNode.has_method("get_animation_list"):
@@ -23,7 +23,7 @@ func _process(delta):
 			animationHintList = ["Error: Node not found"];
 
 # when an object activates the trigger, run the associated animation
-func _on_TrapActivator_body_entered(body):
+func _on_TrapActivator_body_entered(_body):
 	# error check
 	if animationNode != null && animationNode.has_method("queue"):
 		if (!active || repeat):

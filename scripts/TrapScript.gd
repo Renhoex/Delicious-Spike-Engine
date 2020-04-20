@@ -22,13 +22,27 @@ func _physics_process(delta):
 	if (active && !locked):
 		# if the object is collidable then stop movement when colliding
 		if (collide):
-			var check = move_and_collide(velocity*pixelsPerSecond*delta);
+			# godot doesn't like physics sync on move and collide so we disable it temporarily
+			set_sync_to_physics(false);
+			var move = move_and_slide(velocity*pixelsPerSecond, Vector2.DOWN, true, 1);
+			# re enable physics sync
+			set_sync_to_physics(true);
+			# move back from slides
+			position -= move*delta;
 			# if bounce then bounce the velocity in the other direction (do an exception for the player)
-			if check && bounce && check.collider != Global.player:
-				velocity = velocity.bounce(check.normal);
-		# otherwise always move
-		else:
-			position += velocity*pixelsPerSecond*delta;
+			var collisions = get_slide_count();
+			if (collisions > 0):
+				position += move*delta;
+				if bounce:
+					for i in collisions:
+						# avoid having the object stick
+						if velocity.normalized() != get_slide_collision(i).normal:
+							velocity = velocity.bounce(get_slide_collision(i).normal);
+				else:
+					velocity = move;
+		# move
+		position += velocity*pixelsPerSecond*delta;
+		
 		
 		# if stop time is above 0 the run stop active logic
 		if stopTime > 0:
@@ -43,7 +57,7 @@ func _physics_process(delta):
 			stopTime -= delta;
 
 
-func _on_Trigger_body_entered(body):
+func _on_Trigger_body_entered(_body):
 	# check that the trigger is not active or is reactivatable
 	if !active || reactivatable:
 		# set visibility based on what set visibiliy is

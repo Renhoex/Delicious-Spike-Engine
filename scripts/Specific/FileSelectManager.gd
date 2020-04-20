@@ -9,6 +9,7 @@ onready var playerNode = get_node("../Player");
 
 # strings for the file menu
 var fileOptions = ["  Load >","< New Game  "];
+# check file.gd if you want to rename the difficulties
 var difficultyOptions = ["  Medium >","< Hard >","< Very Hard >","< Impossible  "];
 
 const MENU_FILE_SELECT = 0;
@@ -55,6 +56,8 @@ func _process(delta):
 					menu = MENU_FILE_OPTIONS;
 					menuOption = 0; # set to 0 for load, 1 for new game by default
 			MENU_FILE_NEW_GAME: # new game selection
+				# reset data
+				SaveData.reset_data();
 				# make the difficulty match the option
 				SaveData.saveData["difficulty"] = menuOption;
 				# set transition to auto save to indicate a new game
@@ -74,6 +77,10 @@ func _process(delta):
 					1: #new game
 						# go to the new game interface
 						menu = MENU_FILE_NEW_GAME;
+						# reset timer
+						SaveData.saveData["time"] = 0.0;
+						# reset death
+						SaveData.saveData["deaths"] = 0;
 						menuOption = 1; # set to hard by default
 		
 	
@@ -81,6 +88,10 @@ func _process(delta):
 	if (fileNodes[file] != ""):
 		# if it does then move the player towards the files x position
 		playerNode.position.x = lerp(playerNode.position.x,get_node(fileNodes[file]).position.x,delta*5);
+	
+	# options
+	if Input.is_action_just_pressed("gm_up"):
+		Global.main.load_room("Menu/Options");
 
 func option_change(optionToChange, limits):
 	var result = optionToChange

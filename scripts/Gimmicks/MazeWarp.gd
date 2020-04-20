@@ -11,7 +11,7 @@ func _ready():
 	if (warpNode != ""):
 		warpEnd = get_node(warpNode);
 
-func _process(delta):
+func _process(_delta):
 	# editor help
 	if Engine.editor_hint:
 		if (warpNode != ""):
@@ -31,7 +31,7 @@ func _on_CollisionBox_body_entered(body):
 	Global.cameraLock = true;
 
 
-func _on_CollisionBox_body_exited(body):
+func _on_CollisionBox_body_exited(_body):
 	object = null;
 	Global.cameraLock = false;
 

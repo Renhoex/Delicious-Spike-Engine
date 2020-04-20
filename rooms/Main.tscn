@@ -195,6 +195,38 @@ playback_speed = 2.0
 anims/FadeIn = SubResource( 2 )
 anims/FadeOut = SubResource( 3 )
 
+[node name="Counters" type="Label" parent="HUD"]
+margin_left = 657.891
+margin_top = 9.24267
+margin_right = 706.891
+margin_bottom = 45.2427
+text = "Time :
+Death :"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Time" type="Label" parent="HUD/Counters"]
+margin_left = 53.0
+margin_top = 1.07319
+margin_right = 109.0
+margin_bottom = 15.0732
+text = "00:00:00.00"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Death" type="Label" parent="HUD/Counters"]
+margin_left = 53.0
+margin_top = 17.6004
+margin_right = 109.0
+margin_bottom = 31.6004
+text = "0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="GameOver" type="CanvasLayer" parent="."]
 layer = 50
 

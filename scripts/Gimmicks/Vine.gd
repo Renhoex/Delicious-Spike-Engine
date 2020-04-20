@@ -14,7 +14,7 @@ func _ready():
 	if side == 0:
 		scale.x = -abs(scale.x);
 		
-func _process(delta):
+func _process(_delta):
 	# Editor only, we don't want these activating every frame in game.
 	# this basically does the same thing as the ready function
 	if Engine.editor_hint:
