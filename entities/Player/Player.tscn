@@ -10,8 +10,11 @@ extents = Vector2( 5.5, 10.5 )
 z_index = 5
 collision_layer = 33
 collision_mask = 4
-collision/safe_margin = 1.0
 script = ExtResource( 2 )
+
+[node name="CollisionBox" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -2.5 )
+shape = SubResource( 1 )
 
 [node name="HitMask" type="Area2D" parent="."]
 collision_layer = 2
@@ -43,10 +46,6 @@ self_modulate = Color( 1, 0, 0, 1 )
 position = Vector2( 0, -2.5 )
 shape = SubResource( 1 )
 
-[node name="CollisionBox" type="CollisionShape2D" parent="."]
-position = Vector2( 0, -2.5 )
-shape = SubResource( 1 )
-
 [node name="Player" parent="." instance=ExtResource( 1 )]
 
 [node name="GroundNormal" type="RayCast2D" parent="."]
@@ -54,6 +53,7 @@ enabled = true
 collision_mask = 33
 
 [node name="BulletContainer" type="Node" parent="."]
+
 [connection signal="area_shape_entered" from="HitMask" to="." method="_on_HitMask_area_shape_entered"]
 [connection signal="body_entered" from="HitMask" to="." method="_on_HitMask_body_entered"]
 [connection signal="area_shape_entered" from="WallJumpMask" to="." method="_on_WallJumpMask_area_shape_entered"]

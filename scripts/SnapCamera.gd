@@ -25,6 +25,7 @@ func _process(_delta):
 	else:
 		# snap the camera to the focus node
 		if (nodeRef.get_ref()):
+			global_position = nodePoint.global_position;
 			if (!Global.cameraLock):
 				snap_camera(nodePoint.position);
 

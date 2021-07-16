@@ -4,10 +4,11 @@ extends Node2D
 export (int, "Medium", "Hard", "Very Hard")var difficulty = 1;
 
 func _ready():
-	# delete if save file is higher then our difficulty
-	if SaveData.saveData["difficulty"] > difficulty:
-		queue_free();
-	_on_Save_frame_changed();
+	if !Engine.editor_hint:
+		# delete if save file is higher then our difficulty
+		if SaveData.saveData["difficulty"] > difficulty:
+			queue_free();
+		_on_Save_frame_changed();
 
 func _process(_delta):
 	# change the save icon in the editor

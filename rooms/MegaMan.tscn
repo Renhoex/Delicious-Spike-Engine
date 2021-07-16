@@ -354,9 +354,9 @@ position = Vector2( 145.193, 54.5395 )
 anchor_mode = 0
 current = true
 limit_left = -800
-limit_top = 600
+limit_top = -600
 limit_right = 0
-limit_bottom = 1200
+limit_bottom = 0
 script = ExtResource( 2 )
 focusNode = NodePath("../Player")
 
@@ -712,6 +712,7 @@ progressID = 4
 [node name="ProgressOrb2" parent="." instance=ExtResource( 14 )]
 position = Vector2( 264, 368 )
 progressID = 3
+
 [connection signal="body_entered" from="Hazards/Block/Trigger" to="Hazards/Block" method="_on_Trigger_body_entered"]
 [connection signal="body_entered" from="Hazards/Block2/Trigger" to="Hazards/Block2" method="_on_Trigger_body_entered"]
 [connection signal="body_entered" from="Hazards/Block3/Trigger" to="Hazards/Block3" method="_on_Trigger_body_entered"]
