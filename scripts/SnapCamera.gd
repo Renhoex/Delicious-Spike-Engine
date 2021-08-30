@@ -14,8 +14,9 @@ func _ready():
 		nodeRef = weakref(nodePoint);
 		snap_camera(nodePoint.position);
 	# if we're the currently active camera then set global camera to this camera
-	if current:
-		Global.currentCamera = self;
+	if !Engine.editor_hint:
+		if current:
+			Global.currentCamera = self;
 
 func _process(_delta):
 	if Engine.editor_hint:
