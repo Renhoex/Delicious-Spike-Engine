@@ -274,6 +274,7 @@ func _physics_process(delta):
 		# using it, but I'll give hint, you'll need a 2D raycast to get the ground normal and
 		# use rotation (so the player rotates with the slopes and curves) and gravityDirection
 		
+		
 
 # death hit boxes
 func _on_HitMask_body_entered(_body):

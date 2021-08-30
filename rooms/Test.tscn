@@ -94,7 +94,7 @@ points = PoolVector2Array( 32, 32, 0, 32, 0, 0, 32, 0 )
 points = PoolVector2Array( 32, 32, 0, 32, 0, 0, 32, 0 )
 
 [sub_resource type="ConvexPolygonShape2D" id=16]
-points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
+points = PoolVector2Array( 32, 32, 0, 32, 0, 0, 32, 0 )
 
 [sub_resource type="TileSet" id=17]
 0/name = "guyTiles.png 0"
@@ -399,10 +399,10 @@ position = Vector2( 1280, 96 )
 position = Vector2( 1280, 96 )
 z_index = 500
 current = true
-limit_left = 0
-limit_top = -600
-limit_right = 800
-limit_bottom = 0
+limit_left = 1600
+limit_top = 0
+limit_right = 2400
+limit_bottom = 600
 script = ExtResource( 2 )
 focusNode = NodePath("../Player")
 
@@ -689,6 +689,9 @@ rotation = 3.14159
 position = Vector2( 1407.84, 824 )
 velocity = Vector2( 2, 0 )
 
+[node name="CollisionShape2D2" parent="Platforms/MovingPlatform3/PlayerCollision" index="0"]
+position = Vector2( 0.160034, 0 )
+
 [node name="ApearingBlock" parent="Platforms" instance=ExtResource( 15 )]
 position = Vector2( 1200, 912 )
 
@@ -733,8 +736,8 @@ position = Vector2( 1232, 976 )
 
 [node name="Block" parent="Platforms/DiappearingBlock" index="0"]
 texture = ExtResource( 4 )
-vframes = 4
 hframes = 4
+vframes = 4
 frame = 4
 
 [node name="GravitySetter" parent="." instance=ExtResource( 17 )]
@@ -833,6 +836,7 @@ progressID = 7
 position = Vector2( 1352, 392 )
 z_index = -1
 progressID = 5
+
 [connection signal="body_entered" from="FallingCeiling/TrapActivator" to="FallingCeiling/TrapActivator" method="_on_TrapActivator_body_entered"]
 [connection signal="body_entered" from="Hazards/Spike/Trigger" to="Hazards/Spike" method="_on_Trigger_body_entered"]
 [connection signal="body_entered" from="Hazards/Spike2/Trigger" to="Hazards/Spike2" method="_on_Trigger_body_entered"]
@@ -845,11 +849,7 @@ progressID = 5
 [connection signal="body_entered" from="Hazards/Cherry8/Trigger" to="Hazards/Cherry8" method="_on_Trigger_body_entered"]
 
 [editable path="Platforms/MovingPlatform"]
-
 [editable path="Platforms/MovingPlatform4"]
-
 [editable path="Platforms/MovingPlatform2"]
-
 [editable path="Platforms/MovingPlatform3"]
-
 [editable path="Platforms/DiappearingBlock"]
