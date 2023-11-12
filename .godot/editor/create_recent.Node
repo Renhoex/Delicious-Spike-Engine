@@ -1,0 +1,5 @@
+CanvasLayer
+TextureRect
+StaticBody2D
+AnimatableBody2D
+CollisionShape2D

@@ -1,19 +1,17 @@
-extends KinematicBody2D
+extends CharacterBody2D
 
 # how many seconds should the bullet last?
-var lifeTime = 0.96;
-
-var velocity = Vector2.ZERO;
+var lifeTime = 0.96
 
 func _process(delta):
 	# count down the life time, when below zero, delete
 	if lifeTime > 0:
-		lifeTime -= delta;
+		lifeTime -= delta
 	else:
-		queue_free();
+		queue_free()
 
 func _physics_process(delta):
 	# move, if collide hits something then delete self
-	var collide = move_and_collide(velocity*delta);
+	var collide = move_and_collide(velocity*delta)
 	if collide:
-		queue_free();
+		queue_free()

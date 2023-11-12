@@ -1,20 +1,21 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=4 format=3 uid="uid://ontpumdjt7c5"]
 
-[ext_resource path="res://audio/sfx/TrapSounds/Cherry.wav" type="AudioStream" id=1]
-[ext_resource path="res://graphics/Hazards/spike.png" type="Texture" id=2]
-[ext_resource path="res://scripts/TrapScript.gd" type="Script" id=3]
+[ext_resource type="AudioStream" uid="uid://ob35ybnpbie" path="res://audio/sfx/TrapSounds/Cherry.wav" id="1"]
+[ext_resource type="Texture2D" uid="uid://bng8adoddrjoi" path="res://graphics/Hazards/spike.png" id="2"]
+[ext_resource type="Script" path="res://scripts/TrapScript.gd" id="3"]
 
-[node name="Spike" type="KinematicBody2D"]
-collision_layer = 0
-collision_mask = 2
-script = ExtResource( 3 )
+[node name="Spike" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 0
+motion_mode = 1
+script = ExtResource("3")
 
-[node name="spike" type="Sprite" parent="."]
-texture = ExtResource( 2 )
+[node name="spike" type="Sprite2D" parent="."]
+texture = ExtResource("2")
 
 [node name="DeathCollision" type="CollisionPolygon2D" parent="."]
-polygon = PoolVector2Array( -16, 16, 0, -16, 16, 16 )
+polygon = PackedVector2Array(-16, 16, 0, -16, 16, 16)
 
 [node name="LaunchSound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 1 )
-bus = "SFX"
+stream = ExtResource("1")
+bus = &"SFX"

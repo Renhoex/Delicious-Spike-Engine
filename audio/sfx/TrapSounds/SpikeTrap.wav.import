@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/SpikeTrap.wav-0ea9bfe20fd033cf0466af3aa95538ab.sample"
+type="AudioStreamWAV"
+uid="uid://cpbtt4lqjg75o"
+path="res://.godot/imported/SpikeTrap.wav-0ea9bfe20fd033cf0466af3aa95538ab.sample"
 
 [deps]
 
 source_file="res://audio/sfx/TrapSounds/SpikeTrap.wav"
-dest_files=[ "res://.import/SpikeTrap.wav-0ea9bfe20fd033cf0466af3aa95538ab.sample" ]
+dest_files=["res://.godot/imported/SpikeTrap.wav-0ea9bfe20fd033cf0466af3aa95538ab.sample"]
 
 [params]
 
@@ -17,5 +18,7 @@ force/max_rate=false
 force/max_rate_hz=44100
 edit/trim=false
 edit/normalize=false
-edit/loop=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
 compress/mode=0

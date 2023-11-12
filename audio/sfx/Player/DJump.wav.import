@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/DJump.wav-c6f5b6409fd8d6ada0e8f30223ddb5ae.sample"
+type="AudioStreamWAV"
+uid="uid://ce2kwcu0ih6os"
+path="res://.godot/imported/DJump.wav-c6f5b6409fd8d6ada0e8f30223ddb5ae.sample"
 
 [deps]
 
 source_file="res://audio/sfx/Player/DJump.wav"
-dest_files=[ "res://.import/DJump.wav-c6f5b6409fd8d6ada0e8f30223ddb5ae.sample" ]
+dest_files=["res://.godot/imported/DJump.wav-c6f5b6409fd8d6ada0e8f30223ddb5ae.sample"]
 
 [params]
 
@@ -17,5 +18,7 @@ force/max_rate=false
 force/max_rate_hz=44100
 edit/trim=false
 edit/normalize=false
-edit/loop=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
 compress/mode=0

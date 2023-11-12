@@ -1,15 +1,19 @@
 [remap]
 
-importer="ogg_vorbis"
-type="AudioStreamOGGVorbis"
-path="res://.import/MegaMan.ogg-36a9554624ab0c48a526ab5bc07ab292.oggstr"
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://budu5adfftfil"
+path="res://.godot/imported/MegaMan.ogg-36a9554624ab0c48a526ab5bc07ab292.oggvorbisstr"
 
 [deps]
 
 source_file="res://audio/music/MegaMan.ogg"
-dest_files=[ "res://.import/MegaMan.ogg-36a9554624ab0c48a526ab5bc07ab292.oggstr" ]
+dest_files=["res://.godot/imported/MegaMan.ogg-36a9554624ab0c48a526ab5bc07ab292.oggvorbisstr"]
 
 [params]
 
 loop=true
 loop_offset=0.1
+bpm=0
+beat_count=0
+bar_beats=4

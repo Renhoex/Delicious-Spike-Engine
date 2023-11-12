@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://nyt3jiydylvg"]
+
+[ext_resource type="Texture2D" uid="uid://ulqqyolyckgn" path="res://graphics/Tiles/JumpThrough.png" id="1_gy2e4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1fb5g"]
+size = Vector2(32, 1)
+
+[node name="Platform" type="StaticBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -15.5)
+shape = SubResource("RectangleShape2D_1fb5g")
+one_way_collision = true
+
+[node name="JumpThrough" type="Sprite2D" parent="."]
+texture = ExtResource("1_gy2e4")

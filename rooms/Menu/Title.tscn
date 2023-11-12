@@ -1,23 +1,24 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=5 format=3 uid="uid://cff71jgrihiyg"]
 
-[ext_resource path="res://entities/Hazards/Spike.tscn" type="PackedScene" id=1]
-[ext_resource path="res://scripts/Specific/Title.gd" type="Script" id=2]
-[ext_resource path="res://scripts/RoomInitializer.gd" type="Script" id=3]
-[ext_resource path="res://audio/music/GuyRock.ogg" type="AudioStream" id=4]
+[ext_resource type="PackedScene" uid="uid://ontpumdjt7c5" path="res://entities/Hazards/Spike.tscn" id="1"]
+[ext_resource type="Script" path="res://scripts/Specific/Title.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/RoomInitializer.gd" id="3"]
+[ext_resource type="AudioStream" uid="uid://bsxtatqrpn35w" path="res://audio/music/GuyRock.ogg" id="4"]
 
 [node name="Title" type="Node2D"]
-script = ExtResource( 3 )
-music = ExtResource( 4 )
+script = ExtResource("3")
+music = ExtResource("4")
 
 [node name="TitleScript" type="Node" parent="."]
-script = ExtResource( 2 )
+script = ExtResource("2")
 
 [node name="Title" type="Label" parent="."]
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = 400.0
-margin_bottom = 300.0
-rect_scale = Vector2( 2, 2 )
+offset_right = 400.0
+offset_bottom = 300.0
+scale = Vector2(2, 2)
 text = "Delicious Spike Engine
 (IWBTG Godot)
 
@@ -25,23 +26,17 @@ Press Start
 
 
 Created by Sharb"
-align = 1
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
+horizontal_alignment = 1
+vertical_alignment = 2
 
 [node name="Version" type="Label" parent="."]
-margin_left = 4.0
-margin_top = 4.0
-margin_right = 44.0
-margin_bottom = 18.0
-text = "V1.2"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 44.0
+offset_bottom = 18.0
+text = "V2.0"
 
-[node name="Spike" parent="." instance=ExtResource( 1 )]
-position = Vector2( 400, 96 )
-scale = Vector2( 3, 3 )
+[node name="Spike" parent="." instance=ExtResource("1")]
+position = Vector2(400, 96)
+scale = Vector2(3, 3)
 playSound = false

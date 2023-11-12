@@ -1,15 +1,19 @@
 [remap]
 
-importer="ogg_vorbis"
-type="AudioStreamOGGVorbis"
-path="res://.import/GuyRock.ogg-c9532d3756fa58522fb5dc62e334840d.oggstr"
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bsxtatqrpn35w"
+path="res://.godot/imported/GuyRock.ogg-c9532d3756fa58522fb5dc62e334840d.oggvorbisstr"
 
 [deps]
 
 source_file="res://audio/music/GuyRock.ogg"
-dest_files=[ "res://.import/GuyRock.ogg-c9532d3756fa58522fb5dc62e334840d.oggstr" ]
+dest_files=["res://.godot/imported/GuyRock.ogg-c9532d3756fa58522fb5dc62e334840d.oggvorbisstr"]
 
 [params]
 
 loop=true
 loop_offset=95.0
+bpm=0
+beat_count=0
+bar_beats=4

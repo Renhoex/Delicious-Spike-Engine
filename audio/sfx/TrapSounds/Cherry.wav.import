@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/Cherry.wav-b2668e2782b4c352370adb18e089c016.sample"
+type="AudioStreamWAV"
+uid="uid://ob35ybnpbie"
+path="res://.godot/imported/Cherry.wav-b2668e2782b4c352370adb18e089c016.sample"
 
 [deps]
 
 source_file="res://audio/sfx/TrapSounds/Cherry.wav"
-dest_files=[ "res://.import/Cherry.wav-b2668e2782b4c352370adb18e089c016.sample" ]
+dest_files=["res://.godot/imported/Cherry.wav-b2668e2782b4c352370adb18e089c016.sample"]
 
 [params]
 
@@ -17,5 +18,7 @@ force/max_rate=false
 force/max_rate_hz=44100
 edit/trim=false
 edit/normalize=false
-edit/loop=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
 compress/mode=0
