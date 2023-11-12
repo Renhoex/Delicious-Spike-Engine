@@ -1,7 +1,8 @@
 # Delicious-Spike-Engine
 A public open source clone of I wanna be the guy fangame recreated in godot to help aid new developers get an understanding of godot
 
-This was created with Godot 3.2.1 which can be aquired at https://godotengine.org/
+This was created with Godot 4.1.2 which can be aquired at https://godotengine.org/
+for godot 3 see the branch archive see https://github.com/Renhoex/Delicious-Spike-Engine/tree/Godot-3-Archive
 
 # Change-log
 # 1.0
@@ -27,5 +28,12 @@ This was created with Godot 3.2.1 which can be aquired at https://godotengine.or
 - Fixed the death sound player not using a bus sound channel
 - Recoded the way time is saved to prevent time reseting and not reseting on new files
 - Game configuration file now uses the GameConfiguration class
+
+# 2.0
+- removed semicolons from scripts
+- rewrote the platforms to take advantage of animated static bodies
+- rewrote movements to work better with Godots new physics
+- moved process code to physics code to keep gameplay consistent
+- fixed up and converted all code to work with godot 4.1
 
 # Read the Delicious Spike Engine Guide for more information
