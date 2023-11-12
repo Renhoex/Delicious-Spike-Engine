@@ -85,10 +85,10 @@ position = Vector2(1280, 96)
 
 [node name="Camera" type="Camera2D" parent="."]
 z_index = 500
-limit_left = 2400
-limit_top = -600
-limit_right = 3200
-limit_bottom = 0
+limit_left = 3200
+limit_top = 1800
+limit_right = 4000
+limit_bottom = 2400
 script = ExtResource("2")
 focusNode = NodePath("../Player")
 

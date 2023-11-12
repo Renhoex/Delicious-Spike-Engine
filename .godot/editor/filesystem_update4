@@ -1,7 +1,6 @@
 res://default_env.tres
-res://rooms/Test.tscn
-res://tilesets/Guy.tres
 res://rooms/Main.tscn
+res://tilesets/Guy.tres
 res://rooms/Menu/Title.tscn
 res://entities/Hazards/Spike.tscn
 res://rooms/Menu/FileSelect.tscn
@@ -11,3 +10,5 @@ res://entities/Hazards/Cherry.tscn
 res://entities/Blocks/AppearingBlock.tscn
 res://entities/Blocks/DisappearingBlock.tscn
 res://entities/Gimmicks/MovingPlatform.tscn
+res://rooms/Test.tscn
+res://scripts/RoomInitializer.gd

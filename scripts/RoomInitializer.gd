@@ -27,8 +27,8 @@ func _ready():
 		# load self into scene loader
 		main.get_node("SceneLoader").add_child(self)
 		# set room to room file name (and strip the filename string)
-		#Global.room = filename.right(12).left(filename.length()-17)
-		
+		Global.room = scene_file_path.trim_prefix("res://rooms/").trim_suffix(".tscn")
+	
 	# load the song if there is one, if there isn't then mute the music
 	if (Global.main != null):
 		if (music != Global.main.get_node("Music").stream):
