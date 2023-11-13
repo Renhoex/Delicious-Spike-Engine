@@ -32,7 +32,7 @@ func load_room(RoomName):
 	Global.screen_freeze()
 	# find the new room
 	var dir = FileAccess
-	if (dir.file_exists("res://rooms/"+RoomName+".tscn")):
+	if dir.file_exists("res://rooms/"+RoomName+".tscn") || dir.file_exists("res://rooms/"+RoomName+".tscn.remap"): # Note: remap is something godot does to exported projects, don't ask me why
 		# clear the old room
 		for i in $SceneLoader.get_children():
 			i.queue_free() 

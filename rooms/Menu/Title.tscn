@@ -34,7 +34,7 @@ offset_left = 4.0
 offset_top = 4.0
 offset_right = 44.0
 offset_bottom = 18.0
-text = "V2.0.1"
+text = "V2.0.2"
 
 [node name="Spike" parent="." instance=ExtResource("1")]
 position = Vector2(400, 96)
